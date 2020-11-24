@@ -12,13 +12,15 @@ class ImagePane : public Pane {
 private:
   bgfx::TextureHandle texture;
 
-  bgfx::VertexBufferHandle vertex_buffer;
-  bgfx::IndexBufferHandle index_buffer;
+  bgfx::VertexBufferHandle vertexBuffer;
+  bgfx::IndexBufferHandle indexBuffer;
   bgfx::VertexLayout layout;
   bgfx::ProgramHandle program;
+  bgfx::UniformHandle textureColor;
 
 public:
   ImagePane(std::string file_path);
+  ~ImagePane();
   void Render();
 };
 

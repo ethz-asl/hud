@@ -13,5 +13,4 @@ file(GLOB SOURCE_FILES src/*.cc)
 add_executable(main ${SOURCE_FILES})
 target_link_libraries(main bgfx bx bimg glfw)
 
-
 add_shaders(main SHADERS vs_pane.sc fs_pane.sc)

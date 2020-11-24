@@ -46,7 +46,6 @@ void AppWindow::addPane(std::shared_ptr<Pane> pane) {
 }
 
 bool AppWindow::update() {
-  glfwPollEvents();
   if (glfwWindowShouldClose(window)) return false;
 
   for (std::pair<Rect, std::shared_ptr<Pane>> pair : panes) {

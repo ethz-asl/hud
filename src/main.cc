@@ -11,12 +11,12 @@ int main(void) {
   }
   AppWindow app("Hello");
 
-
   auto image_pane = std::make_shared<ImagePane>("../left.jpg");
   app.addPane(image_pane);
 
   while (app.update()) {
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    glfwWaitEvents();
   }
 
   return 0;
