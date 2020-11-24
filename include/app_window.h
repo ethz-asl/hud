@@ -20,6 +20,7 @@ public:
   void addPane(std::shared_ptr<Pane> pane);
   ~AppWindow();
 
+  void resized(int, int);
   bool update();
 };
 

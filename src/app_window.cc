@@ -27,6 +27,12 @@ AppWindow::AppWindow(std::string title) : title(title) {
     init.resolution.width = (uint32_t)width;
     init.resolution.height = (uint32_t)height;
     init.resolution.reset = BGFX_RESET_VSYNC;
+    
+    glfwSetWindowUserPointer(window, this);
+    glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int newWidth, int newHeight) {
+      AppWindow* app = (AppWindow*)glfwGetWindowUserPointer(window);
+      app->resized(newWidth, newHeight);
+    });
 
     bgfx::init(init);
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
@@ -45,6 +51,13 @@ void AppWindow::addPane(std::shared_ptr<Pane> pane) {
   }
 }
 
+void AppWindow::resized(int newWidth, int newHeight) {
+  width = newWidth; height = newHeight;
+  auto &pane = panes[0];
+  pane.first = {0, 0, uint16_t(width), uint16_t(height)};
+  bgfx::reset(width, height);
+}
+
 bool AppWindow::update() {
   if (glfwWindowShouldClose(window)) return false;
 
@@ -55,8 +68,6 @@ bool AppWindow::update() {
     pane->Render();
   }
 
-  // Advance to next frame. Rendering thread will be kicked to
-  // process submitted rendering primitives.
   bgfx::frame();
 
   return true;
