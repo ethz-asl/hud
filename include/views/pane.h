@@ -4,6 +4,8 @@
 #include "texture_utils.h"
 #include "shader_utils.h"
 
+
+namespace views {
 class Pane {
 public:
   virtual void Render() = 0;
@@ -23,5 +25,5 @@ public:
   ~ImagePane();
   void Render();
 };
-
+}
 #endif

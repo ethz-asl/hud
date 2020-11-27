@@ -1,6 +1,7 @@
 #include <memory>
 #include <vector>
-#include "pane.h"
+#include <GLFW/glfw3.h>
+#include "views/pane.h"
 
 struct Rect {
   uint16_t x;
@@ -13,11 +14,11 @@ class AppWindow {
 	GLFWwindow *window;
   int width, height;
   std::string title;
-  std::vector<std::pair<Rect, std::shared_ptr<Pane>>> panes;
+  std::vector<std::pair<Rect, std::shared_ptr<views::Pane>>> panes;
 public:
   AppWindow(std::string title);
 
-  void addPane(std::shared_ptr<Pane> pane);
+  void addPane(std::shared_ptr<views::Pane> pane);
   ~AppWindow();
 
   void resized(int, int);

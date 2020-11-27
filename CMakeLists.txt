@@ -9,7 +9,7 @@ include_directories(include)
 add_subdirectory(submodules/bgfx)
 
 
-file(GLOB SOURCE_FILES src/*.cc)
+file(GLOB SOURCE_FILES src/**/*.cc src/*.cc)
 add_executable(main ${SOURCE_FILES})
 target_link_libraries(main bgfx bx bimg glfw)
 

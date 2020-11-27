@@ -1,5 +1,6 @@
-#include "pane.h"
+#include "views/pane.h"
 
+namespace views {
 static const float vertexData[] = {
   -1.0f, -1.0f, 0.0f, 1.0f, 1.0f,
   -1.0f,  1.0f, 0.0f, 1.0f, 0.0f,
@@ -49,3 +50,4 @@ void ImagePane::Render() {
   bgfx::submit(0, program);
 }
 
+}

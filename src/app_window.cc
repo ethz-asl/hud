@@ -9,6 +9,7 @@
 #include <GLFW/glfw3native.h>
 #include "app_window.h"
 
+using namespace views;
 const int WindowWidth = 800;
 const int WindowHeight = 600;
 
@@ -39,6 +40,7 @@ AppWindow::AppWindow(std::string title) : title(title) {
   }
 
 AppWindow::~AppWindow() {
+  panes.clear();
   bgfx::shutdown();
 }
 

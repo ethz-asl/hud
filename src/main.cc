@@ -2,7 +2,7 @@
 #include <thread>
 #include <GLFW/glfw3.h>
 #include "app_window.h"
-#include "pane.h"
+#include "views/pane.h"
 
 int main(void) {
   if (!glfwInit()) {
@@ -11,7 +11,7 @@ int main(void) {
   }
   AppWindow app("Hello");
 
-  auto image_pane = std::make_shared<ImagePane>("../left.jpg");
+  auto image_pane = std::make_shared<views::ImagePane>("../left.jpg");
   app.addPane(image_pane);
 
   while (app.update()) {
