@@ -21,8 +21,8 @@ bgfx::ShaderHandle loadShader(bx::FileReader *reader, const char* _name) {
 
 	switch (bgfx::getRendererType()) {
 	case bgfx::RendererType::Noop:
-	case bgfx::RendererType::OpenGL:     shaderPath = "../assets/glsl/";  break;
-	case bgfx::RendererType::Vulkan:     shaderPath = "../assets/spirv/"; break;
+	case bgfx::RendererType::OpenGL:     shaderPath = "../compiled_shaders/glsl/";  break;
+	case bgfx::RendererType::Vulkan:     shaderPath = "../compiled_shaders/spirv/"; break;
 	case bgfx::RendererType::Count:
 		BX_ASSERT(false, "You should not be here!");
 		break;

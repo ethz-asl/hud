@@ -14,11 +14,11 @@ class AppWindow {
 	GLFWwindow *window;
   int width, height;
   std::string title;
-  std::vector<std::pair<Rect, std::shared_ptr<views::Pane>>> panes;
+  std::shared_ptr<views::View> view;
 public:
-  AppWindow(std::string title);
+  AppWindow(std::string title, const int width, const int height);
 
-  void addPane(std::shared_ptr<views::Pane> pane);
+  void setView(std::shared_ptr<views::View> view);
   ~AppWindow();
 
   void resized(int, int);

@@ -1,16 +1,13 @@
 #ifndef H_PANE
 #define H_PANE
 #include <bgfx/bgfx.h>
-#include "texture_utils.h"
-#include "shader_utils.h"
+#include "../texture_utils.h"
+#include "../shader_utils.h"
+#include "view.h"
 
 
 namespace views {
-class Pane {
-public:
-  virtual void Render() = 0;
-};
-class ImagePane : public Pane {
+class ImagePane : public View {
 private:
   bgfx::TextureHandle texture;
 
@@ -21,9 +18,9 @@ private:
   bgfx::UniformHandle textureColor;
 
 public:
-  ImagePane(std::string file_path);
+  ImagePane(int id, std::string file_path);
   ~ImagePane();
-  void Render();
+  void render(const ViewRect&);
 };
 }
 #endif

@@ -1,7 +1,7 @@
 macro(add_shaders ARG_TARGET)
   cmake_parse_arguments(ARG "" "" "SHADERS" ${ARGN})
 
-  set(SHADER_DIRECTORY ${CMAKE_SOURCE_DIR}/assets)
+  set(SHADER_DIRECTORY ${CMAKE_SOURCE_DIR}/compiled_shaders)
   file(MAKE_DIRECTORY ${SHADER_DIRECTORY}/glsl)
   file(MAKE_DIRECTORY ${SHADER_DIRECTORY}/spirv)
 

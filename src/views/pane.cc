@@ -13,7 +13,7 @@ static const uint16_t faces[] = {
   0, 2, 3
 };
 
-ImagePane::ImagePane(std::string file_path) {
+ImagePane::ImagePane(int id, std::string file_path) : View(id) {
   layout
     .begin()
     .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
@@ -27,6 +27,7 @@ ImagePane::ImagePane(std::string file_path) {
   texture = loadTexture(file_path);
 
   program = shader_utils::loadProgram("vs_pane", "fs_pane");
+  bgfx::setViewClear(0, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 }
 
 ImagePane::~ImagePane() {
@@ -37,17 +38,16 @@ ImagePane::~ImagePane() {
   bgfx::destroy(program);
 }
 
-void ImagePane::Render() {
-  uint64_t state = BGFX_STATE_DEFAULT;
-	bgfx::touch(0);
+void ImagePane::render(const ViewRect& rect) {
+  (void)rect;
 
   bgfx::setVertexBuffer(0, vertexBuffer);
   bgfx::setIndexBuffer(indexBuffer);
 
   bgfx::setTexture(0, textureColor, texture);
 
-  bgfx::setState(state);
-  bgfx::submit(0, program);
+  bgfx::setState(BGFX_STATE_DEFAULT);
+  bgfx::submit(viewId, program);
 }
 
 }
