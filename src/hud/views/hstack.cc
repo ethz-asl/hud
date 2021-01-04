@@ -1,5 +1,5 @@
 #include <bgfx/bgfx.h>
-#include "views/hstack.h"
+#include <hud/views/hstack.h>
 #include <iostream>
 
 namespace views {

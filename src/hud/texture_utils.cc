@@ -3,7 +3,7 @@
 #include <bx/file.h>
 #include <bimg/bimg.h>
 #include <bimg/decode.h>
-#include "texture_utils.h"
+#include <hud/texture_utils.h>
 
 static bx::DefaultAllocator allocator;
 
@@ -28,19 +28,19 @@ bgfx::TextureHandle loadTexture(std::string &filePath) {
 
 		bimg::ImageContainer *imageContainer = bimg::imageParse(&allocator, data, size);
 
-		if (!error.isOk()) {	
+		if (!error.isOk()) {
 			throw texture_load_exception();
 		}
-			const bgfx::Memory* mem = bgfx::makeRef(imageContainer->m_data, 
+			const bgfx::Memory* mem = bgfx::makeRef(imageContainer->m_data,
 				imageContainer->m_size, imageReleaseCb, imageContainer);
 
 			BX_FREE(&allocator, data);
 
-			handle = bgfx::createTexture2D(uint16_t(imageContainer->m_width), uint16_t(imageContainer->m_height), 
-				1 < imageContainer->m_numMips, 
-				imageContainer->m_numLayers, 
-				bgfx::TextureFormat::Enum(imageContainer->m_format), 
-				BGFX_TEXTURE_NONE | BGFX_SAMPLER_NONE, 
+			handle = bgfx::createTexture2D(uint16_t(imageContainer->m_width), uint16_t(imageContainer->m_height),
+				1 < imageContainer->m_numMips,
+				imageContainer->m_numLayers,
+				bgfx::TextureFormat::Enum(imageContainer->m_format),
+				BGFX_TEXTURE_NONE | BGFX_SAMPLER_NONE,
 				mem);
 	}
 

@@ -1,7 +1,7 @@
 #include <memory>
 #include <vector>
 #include <GLFW/glfw3.h>
-#include "views/pane.h"
+#include <hud/views/pane.h>
 
 struct Rect {
   uint16_t x;

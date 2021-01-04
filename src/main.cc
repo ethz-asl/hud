@@ -1,9 +1,9 @@
 #include <iostream>
 #include <thread>
 #include <GLFW/glfw3.h>
-#include "app_window.h"
-#include "views/hstack.h"
-#include "views/pane.h"
+#include <hud/app_window.h>
+#include <hud/views/hstack.h>
+#include <hud/views/pane.h>
 
 int main(void) {
   if (!glfwInit()) {

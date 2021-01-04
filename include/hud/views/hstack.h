@@ -3,7 +3,7 @@
 #include <vector>
 #include <functional>
 #include <memory>
-#include "view.h"
+#include <hud/views/view.h>
 
 namespace views {
 struct Layout {

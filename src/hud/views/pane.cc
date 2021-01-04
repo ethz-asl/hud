@@ -1,4 +1,4 @@
-#include "views/pane.h"
+#include <hud/views/pane.h>
 
 namespace views {
 static const float vertexData[] = {
