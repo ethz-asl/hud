@@ -2,8 +2,13 @@ cmake_minimum_required(VERSION 3.10)
 project(XRay)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include(cmake/shaders.cmake)
+include(cmake/completer.cmake)
+
+set(BGFX_BUILD_TOOLS ON)
+set(BGFX_BUILD_EXAMPLES OFF)
 
 include_directories(include)
 add_subdirectory(submodules/bgfx)
