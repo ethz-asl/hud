@@ -5,18 +5,19 @@
 #include <memory>
 #include <hud/views/view.h>
 
-namespace views {
-struct Layout {
-  std::vector<std::shared_ptr<View>> views;
-};
-
+namespace hud::views {
 class HStack : public View {
 private:
-  Layout layout;
+  LayoutContext layout;
 public:
-  HStack(int id, const std::function<void(Layout&)> &fn);
+  HStack(int id, const std::function<void(LayoutContext&)> &fn);
   ~HStack();
-  void render(const ViewRect& rect);
+  // Management.
+  virtual std::list<std::shared_ptr<View>> childViews() const override;
+  void resized(Rect rect) override;
+
+  // Rendering.
+  void render() const override;
 };
 }
 

@@ -1,6 +1,6 @@
 #include <hud/views/pane.h>
 
-namespace views {
+namespace hud::views {
 static const float vertexData[] = {
   -1.0f, -1.0f, 0.0f, 1.0f, 1.0f,
   -1.0f,  1.0f, 0.0f, 1.0f, 0.0f,
@@ -38,16 +38,14 @@ ImagePane::~ImagePane() {
   bgfx::destroy(program);
 }
 
-void ImagePane::render(const ViewRect& rect) {
-  (void)rect;
-
+void ImagePane::render() const {
   bgfx::setVertexBuffer(0, vertexBuffer);
   bgfx::setIndexBuffer(indexBuffer);
 
   bgfx::setTexture(0, textureColor, texture);
 
   bgfx::setState(BGFX_STATE_DEFAULT);
-  bgfx::submit(viewId, program);
+  bgfx::submit(view_id, program);
 }
 
 }

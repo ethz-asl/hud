@@ -1,14 +1,8 @@
 #include <memory>
-#include <vector>
 #include <GLFW/glfw3.h>
-#include <hud/views/pane.h>
+#include <hud/views/view.h>
 
-struct Rect {
-  uint16_t x;
-  uint16_t y;
-  uint16_t width;
-  uint16_t height;
-};
+namespace hud {
 
 class AppWindow {
 	GLFWwindow *window;
@@ -21,7 +15,14 @@ public:
   void setView(std::shared_ptr<views::View> view);
   ~AppWindow();
 
+  // Mouse Input.
+  void leftClick();
+
+  // Window handlers.
   void resized(int, int);
+
+  // Rendering.
   bool update();
 };
 
+}

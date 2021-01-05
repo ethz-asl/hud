@@ -5,8 +5,7 @@
 #include <hud/shader_utils.h>
 #include <hud/views/view.h>
 
-
-namespace views {
+namespace hud::views {
 class ImagePane : public View {
 private:
   bgfx::TextureHandle texture;
@@ -20,7 +19,8 @@ private:
 public:
   ImagePane(int id, std::string file_path);
   ~ImagePane();
-  void render(const ViewRect&);
+  // Rendering.
+  void render() const override;
 };
 }
 #endif
