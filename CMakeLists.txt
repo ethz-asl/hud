@@ -17,4 +17,5 @@ file(GLOB SOURCE_FILES src/**/*.cc src/hud/**/*.cc src/*.cc)
 add_executable(main ${SOURCE_FILES})
 target_link_libraries(main bgfx bx bimg glfw)
 
-add_shaders(main SHADERS vs_pane.sc fs_pane.sc point_layer/vs_point_layer.sc point_layer/fs_point_layer.sc)
+add_shaders(main SHADERS vs_pane.sc fs_pane.sc point_layer/vs_point_layer.sc point_layer/fs_point_layer.sc
+    line_layer/vs_line_layer.sc line_layer/fs_line_layer.sc)
