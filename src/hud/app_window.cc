@@ -8,6 +8,7 @@
 #define GLFW_EXPOSE_NATIVE_X11
 #include <GLFW/glfw3native.h>
 #include <hud/app_window.h>
+#include <hud/utils.h>
 
 using namespace hud::views;
 
@@ -51,15 +52,15 @@ AppWindow::~AppWindow() {
 
 void AppWindow::setView(std::shared_ptr<View> newView) {
   view = newView;
-  Rect rect = { 0, 0, width, height };
+  Rect rect = { 0, 0, double(width), double(height) };
   view->resized(rect);
 }
 
 void AppWindow::leftClick() {
   double x, y;
   glfwGetCursorPos(window, &x, &y);
-  ClickEvent event { x, y };
-  std::cout << "User clicked x: " << event.x << " y: " << event.y << std::endl;
+  const ClickEvent event = { Point(x, y) };
+  view->leftClick(event);
 }
 
 // Window handlers.
@@ -67,7 +68,7 @@ void AppWindow::resized(int new_width, int new_height) {
   width = new_width;
   height = new_height;
   bgfx::reset(width, height);
-  Rect rect = {0, 0, width, height};
+  Rect rect = { 0, 0, double(width), double(height) };
   view->resized(rect);
 }
 

@@ -19,6 +19,7 @@ private:
 public:
   ImagePane(int id, std::string file_path);
   ~ImagePane();
+
   // Rendering.
   void render() const override;
 };

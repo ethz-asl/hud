@@ -27,7 +27,7 @@ ImagePane::ImagePane(int id, std::string file_path) : View(id) {
   texture = loadTexture(file_path);
 
   program = shader_utils::loadProgram("vs_pane", "fs_pane");
-  bgfx::setViewClear(0, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
+  bgfx::setViewClear(view_id, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 }
 
 ImagePane::~ImagePane() {
