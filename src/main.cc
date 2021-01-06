@@ -15,6 +15,7 @@ class StereoLabel {
   private:
   AppWindow app;
   std::shared_ptr<views::View> left_pane, right_pane;
+  std::shared_ptr<views::ImagePane> left_image_pane;
   public:
   StereoLabel() : app("StereoLabel", 1280, 600) {
     createViews();
@@ -29,26 +30,29 @@ class StereoLabel {
 
   protected:
   void createViews() {
-    std::shared_ptr<views::ImagePane> left_image_pane = std::make_shared<views::ImagePane>(0, "../assets/left.jpg");
+    left_image_pane = std::make_shared<views::ImagePane>(0, "../assets/left.jpg");
     right_pane = std::make_shared<views::ImagePane>(1, "../assets/right.jpg");
     std::vector<Point> points = { Point(-0.8, 0.0) };
 
-    auto point_layer = std::make_shared<views::PointLayer>(4, points);
-    left_pane = std::make_shared<views::ZStack>(3, [&](views::LayoutContext &layout) {
+    auto left_point_layer = std::make_shared<views::PointLayer>(4, points);
+    left_pane = std::make_shared<views::ZStack>(3, [=, this](views::LayoutContext &layout) {
         layout.add(left_image_pane);
-        layout.add(point_layer);
+        layout.add(left_point_layer);
     });
 
-    auto hstack = std::make_shared<views::HStack>(2, [&](views::LayoutContext &layout) {
+    auto hstack = std::make_shared<views::HStack>(2, [=, this](views::LayoutContext &layout) {
       layout.add(left_pane);
       layout.add(right_pane);
     });
 
-    left_pane->addClickHandler([&](const views::ClickEvent &click) {
-        std::cout << "left pane clicked! x: " << click.p.x << " y: " << click.p.y << std::endl;
+    left_image_pane->addClickHandler([=, this](const views::ClickEvent &click) {
+        auto rect = left_image_pane->getRect();
+        auto point = hud::utils::toNormalizedDeviceCoordinates(click.p, left_image_pane->getRect());
+        std::cout << "left pane clicked! " << point << std::endl;
+        left_point_layer->addPoint(point);
         return true;
     });
-    right_pane->addClickHandler([&](const views::ClickEvent &click) {
+    right_pane->addClickHandler([=, this](const views::ClickEvent &click) {
         std::cout << "right pane clicked! x: " << click.p.x << " y: " << click.p.y << std::endl;
         return true;
     });

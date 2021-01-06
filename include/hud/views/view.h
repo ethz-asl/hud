@@ -36,7 +36,7 @@ public:
   const Rect& getRect() { return rect; }
 
   // Rendering.
-  virtual void render() const  {
+  virtual void render() const {
     for (auto view : this->childViews()) {
       auto rect = view->getRect();
       bgfx::setViewRect(view->view_id, rect.x, rect.y, rect.width, rect.height);
@@ -71,7 +71,7 @@ public:
 class LayoutContext {
 public:
   std::list<std::shared_ptr<View>> views;
-  void add(std::shared_ptr<View> view) { views.push_back(view); };
+  void add(std::shared_ptr<View> view) { views.push_back(std::move(view)); };
 };
 
 }
