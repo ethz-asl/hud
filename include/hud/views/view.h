@@ -11,7 +11,7 @@
 
 namespace hud::views {
 struct ClickEvent {
-  Point p;
+  const Point p;
 };
 
 using ClickHandler = std::function<bool(const ClickEvent&)>;

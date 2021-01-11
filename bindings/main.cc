@@ -1,3 +1,4 @@
+#include "hud/utils.h"
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/functional.h>
@@ -12,8 +13,19 @@ using namespace hud;
 using namespace hud::views;
 
 PYBIND11_MODULE(hud, m) {
+  py::class_<ClickEvent>(m, "ClickEvent")
+    .def_readonly("p", &ClickEvent::p);
+
+  py::class_<Rect>(m, "Rect")
+    .def_readonly("x", &Rect::x)
+    .def_readonly("y", &Rect::y)
+    .def_readonly("width", &Rect::width)
+    .def_readonly("height", &Rect::height);
+
+
   py::class_<View, std::shared_ptr<View>> view(m, "View");
-  view.def("getRect", &View::getRect);
+  view.def("getRect", &View::getRect)
+    .def("add_click_handler", &View::addClickHandler);
 
   py::class_<Point>(m, "Point")
     .def(py::init<double, double>());
@@ -29,7 +41,8 @@ PYBIND11_MODULE(hud, m) {
 
   py::class_<PointLayer, std::shared_ptr<PointLayer>>(m, "PointLayer", view)
     .def(py::init<const std::vector<Point>>())
-    .def("setPoints", &PointLayer::setPoints);
+    .def("set_points", &PointLayer::setPoints)
+    .def("add_point", &PointLayer::addPoint);
 
   py::class_<LayoutContext>(m, "LayoutContext")
     .def(py::init<>())
@@ -37,10 +50,12 @@ PYBIND11_MODULE(hud, m) {
 
   py::class_<AppWindow>(m, "AppWindow")
     .def(py::init<std::string, int, int>())
-    .def("waitEvents", &AppWindow::waitEvents)
-    .def("setView", &AppWindow::setView)
+    .def("wait_events", &AppWindow::waitEvents)
+    .def("set_view", &AppWindow::setView)
     .def("update", &AppWindow::update);
 
   m.def("shutdown", &utils::shutdown);
 
+  auto utils = m.def_submodule("utils");
+  utils.def("to_normalized_device_coordinates", &utils::toNormalizedDeviceCoordinates);
 }

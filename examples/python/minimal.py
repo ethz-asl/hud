@@ -11,6 +11,12 @@ def main():
         context.add(left_image)
         context.add(point_layer)
 
+    def add_point(event):
+        p = hud.utils.to_normalized_device_coordinates(event.p, left_pane.getRect())
+        point_layer.add_point(p)
+        return True
+
+    left_image.add_click_handler(add_point)
     left_pane = hud.ZStack(add_layer)
     right_pane = hud.ImagePane("../assets/right.png")
 
@@ -20,11 +26,11 @@ def main():
 
     hstack = hud.HStack(add_views)
 
-    window.setView(hstack)
+    window.set_view(hstack)
 
     while window.update():
         time.sleep(0.1)
-        window.waitEvents()
+        window.wait_events()
 
 if __name__ == "__main__":
     main()
