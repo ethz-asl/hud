@@ -17,7 +17,7 @@ private:
   bgfx::UniformHandle textureColor;
 
 public:
-  ImagePane(int id, std::string file_path);
+  ImagePane(std::string file_path);
   ImagePane(const ImagePane&) = delete;
   ImagePane& operator=(const ImagePane&) = delete;
   ~ImagePane();

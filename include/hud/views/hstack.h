@@ -9,7 +9,7 @@ namespace hud::views {
 class HStack : public View {
 private:
 public:
-  HStack(int id, const std::function<void(LayoutContext*)> &fn);
+  HStack(const std::function<void(LayoutContext*)> &fn);
   ~HStack();
   // Management.
   void resized(Rect rect) override;

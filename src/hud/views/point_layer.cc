@@ -23,7 +23,7 @@ std::array<float, 20> createVertices(float width, float height) {
   };
 }
 
-PointLayer::PointLayer(int id, const std::vector<Point> p) : hud::views::View(id), points(p) {
+PointLayer::PointLayer(const std::vector<Point> p) : hud::views::View(), points(p) {
   layout
     .begin()
     .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)

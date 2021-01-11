@@ -19,16 +19,16 @@ PYBIND11_MODULE(hud, m) {
     .def(py::init<double, double>());
 
   py::class_<ImagePane, std::shared_ptr<ImagePane>>(m, "ImagePane", view)
-    .def(py::init<int, std::string>());
+    .def(py::init<std::string>());
 
   py::class_<HStack, std::shared_ptr<HStack>>(m, "HStack", view)
-    .def(py::init<int, std::function<void(LayoutContext*)>>());
+    .def(py::init<std::function<void(LayoutContext*)>>());
 
   py::class_<ZStack, std::shared_ptr<ZStack>>(m, "ZStack", view)
-    .def(py::init<int, std::function<void(LayoutContext*)>>());
+    .def(py::init<std::function<void(LayoutContext*)>>());
 
   py::class_<PointLayer, std::shared_ptr<PointLayer>>(m, "PointLayer", view)
-    .def(py::init<int, const std::vector<Point>>())
+    .def(py::init<const std::vector<Point>>())
     .def("setPoints", &PointLayer::setPoints);
 
   py::class_<LayoutContext>(m, "LayoutContext")

@@ -6,7 +6,7 @@ namespace hud::views {
 class ZStack : public hud::views::View {
 private:
 public:
-  ZStack(int id, const std::function<void(LayoutContext*)> &);
+  ZStack(const std::function<void(LayoutContext*)> &);
   // Management.
   void resized(Rect rect) override;
 };

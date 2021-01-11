@@ -15,7 +15,7 @@ static const uint16_t faces[] = {
   0, 2, 3, 0, 3, 1
 };
 
-LineLayer::LineLayer(int view_id) : View(view_id) {
+LineLayer::LineLayer() : View() {
   start_point = Point(-1.0, 0.0);
   end_point = Point(1.0, 0.0);
 

@@ -12,7 +12,7 @@ protected:
   Point start_point, end_point;
   float line_width = 0.02;
 public:
-  LineLayer(int view_id);
+  LineLayer();
 
   ~LineLayer();
 

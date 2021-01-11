@@ -5,7 +5,7 @@ namespace hud::views {
 
 const int Padding = 5;
 
-HStack::HStack(int id, const std::function<void(LayoutContext*)> &fn) : View(id) {
+HStack::HStack(const std::function<void(LayoutContext*)> &fn) : View() {
   LayoutContext layout;
   fn(&layout);
   child_views = layout.views;

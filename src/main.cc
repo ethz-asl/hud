@@ -31,23 +31,23 @@ class StereoLabel {
 
   protected:
   void createViews() {
-    left_image_pane = std::make_shared<views::ImagePane>(0, "../assets/left.jpg");
-    auto right_image_pane = std::make_shared<views::ImagePane>(1, "../assets/right.jpg");
+    left_image_pane = std::make_shared<views::ImagePane>("../assets/left.jpg");
+    auto right_image_pane = std::make_shared<views::ImagePane>("../assets/right.jpg");
     std::vector<Point> points = { Point(-0.8, 0.0) };
 
-    auto left_point_layer = std::make_shared<views::PointLayer>(4, points);
-    left_pane = std::make_shared<views::ZStack>(3, [=](views::LayoutContext *layout) {
+    auto left_point_layer = std::make_shared<views::PointLayer>(points);
+    left_pane = std::make_shared<views::ZStack>([=](views::LayoutContext *layout) {
         layout->add(left_image_pane);
         layout->add(left_point_layer);
     });
 
-    auto line_layer = std::make_shared<LineLayer>(5);
-    right_pane = std::make_shared<views::ZStack>(3, [=](views::LayoutContext *layout) {
+    auto line_layer = std::make_shared<LineLayer>();
+    right_pane = std::make_shared<views::ZStack>([=](views::LayoutContext *layout) {
         layout->add(right_image_pane);
         layout->add(line_layer);
     });
 
-    auto hstack = std::make_shared<views::HStack>(2, [=](views::LayoutContext *layout) {
+    auto hstack = std::make_shared<views::HStack>([=](views::LayoutContext *layout) {
       layout->add(left_pane);
       layout->add(right_pane);
     });

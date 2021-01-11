@@ -17,7 +17,7 @@ protected:
   std::array<float, 20> vertices;
   const float point_radius = 12.0;
 public:
-  PointLayer(int id, const std::vector<Point> p);
+  PointLayer(const std::vector<Point> p);
   ~PointLayer();
 
   void setPoints(std::vector<Point> newPoints);

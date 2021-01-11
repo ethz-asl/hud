@@ -23,50 +23,21 @@ protected:
   std::list<std::shared_ptr<View>> child_views;
 public:
   const int view_id;
-  View(int id) : view_id(id) {
-    rect = { 0, 0, 0, 0 };
-  }
+  View();
 
   // Management.
-  virtual const std::list<std::shared_ptr<View>>& childViews() const {
-    return child_views;
-  }
-  virtual void resized(Rect newRect) {
-    rect = newRect;
-  }
+  virtual const std::list<std::shared_ptr<View>>& childViews() const;
+  virtual void resized(Rect newRect);
   const Rect& getRect() { return rect; }
 
   // Rendering.
-  virtual void render() const {
-    for (auto view : this->childViews()) {
-      auto rect = view->getRect();
-      bgfx::setViewRect(view->view_id, rect.x, rect.y, rect.width, rect.height);
-      view->render();
-    }
-  }
-
+  virtual void render() const;
   // Event Handling.
   void addClickHandler(ClickHandler handler) {
     click_handlers.push_back(handler);
   };
 
-  virtual bool leftClick(const ClickEvent& event) {
-    bool click_handled = false;
-    for (auto child_view : childViews()) {
-      const Rect& view_rect = child_view->getRect();
-      if (hud::utils::intersects(event.p, view_rect)) {
-        const ClickEvent local_event = { Point(event.p.x - view_rect.x, event.p.y - view_rect.y) };
-        click_handled = click_handled || child_view->leftClick(local_event);
-      }
-    }
-
-    if (!click_handled) {
-      for (auto handler : click_handlers) {
-        handler(event);
-      }
-    }
-    return true;
-  };
+  virtual bool leftClick(const ClickEvent& event);
 };
 
 class LayoutContext {

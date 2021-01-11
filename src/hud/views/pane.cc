@@ -13,7 +13,7 @@ static const uint16_t faces[] = {
   0, 2, 3
 };
 
-ImagePane::ImagePane(int id, std::string file_path) : View(id) {
+ImagePane::ImagePane(std::string file_path) : View() {
   layout
     .begin()
     .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
