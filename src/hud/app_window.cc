@@ -14,6 +14,10 @@ using namespace hud::views;
 
 namespace hud {
 AppWindow::AppWindow(std::string title, const int w, const int h) : title(title) {
+  if (!glfwInit()) {
+    std::cout << "Could not initialized glfw" << std::endl;
+    exit(1);
+  }
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
   window = glfwCreateWindow(w, h, title.c_str(), nullptr, nullptr);
   if (!window) {
@@ -47,7 +51,6 @@ AppWindow::AppWindow(std::string title, const int w, const int h) : title(title)
 
 AppWindow::~AppWindow() {
   view.reset();
-  bgfx::shutdown();
 }
 
 void AppWindow::setView(std::shared_ptr<View> newView) {

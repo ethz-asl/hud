@@ -11,9 +11,13 @@ class AppWindow {
   std::shared_ptr<views::View> view;
 public:
   AppWindow(std::string title, const int width, const int height);
+  ~AppWindow();
 
   void setView(std::shared_ptr<views::View> view);
-  ~AppWindow();
+
+  void waitEvents() const {
+    glfwWaitEvents();
+  }
 
   // Mouse Input.
   void leftClick();

@@ -3,17 +3,15 @@
 
 namespace hud::views {
 
-ZStack::ZStack(int id, const std::function<void(LayoutContext&)> &fn) : View(id) {
-  fn(layout);
-}
-
-std::list<std::shared_ptr<View>> ZStack::childViews() const {
-  return layout.views;
+ZStack::ZStack(int id, const std::function<void(LayoutContext*)> &fn) : View(id) {
+  LayoutContext layout;
+  fn(&layout);
+  child_views = layout.views;
 }
 
 void ZStack::resized(Rect newRect) {
   View::resized(newRect);
-  std::for_each(layout.views.begin(), layout.views.end(), [&](std::shared_ptr<View> view) {
+  std::for_each(child_views.begin(), child_views.end(), [&](std::shared_ptr<View> view) {
     view->resized(newRect);
   });
 }

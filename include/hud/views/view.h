@@ -20,6 +20,7 @@ class View {
 protected:
   std::vector<ClickHandler> click_handlers;
   Rect rect;
+  std::list<std::shared_ptr<View>> child_views;
 public:
   const int view_id;
   View(int id) : view_id(id) {
@@ -27,8 +28,8 @@ public:
   }
 
   // Management.
-  virtual std::list<std::shared_ptr<View>> childViews() const {
-    return std::list<std::shared_ptr<View>>();
+  virtual const std::list<std::shared_ptr<View>>& childViews() const {
+    return child_views;
   }
   virtual void resized(Rect newRect) {
     rect = newRect;
@@ -71,7 +72,9 @@ public:
 class LayoutContext {
 public:
   std::list<std::shared_ptr<View>> views;
-  void add(std::shared_ptr<View> view) { views.push_back(std::move(view)); };
+  void add(std::shared_ptr<View> view) {
+    views.push_back(std::move(view));
+  };
 };
 
 }

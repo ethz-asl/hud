@@ -18,10 +18,13 @@ private:
 
 public:
   ImagePane(int id, std::string file_path);
+  ImagePane(const ImagePane&) = delete;
+  ImagePane& operator=(const ImagePane&) = delete;
   ~ImagePane();
 
   // Rendering.
   void render() const override;
+
 };
 }
 #endif

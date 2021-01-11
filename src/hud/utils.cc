@@ -1,4 +1,6 @@
 #include <hud/utils.h>
+#include <bgfx/bgfx.h>
+#include <GLFW/glfw3.h>
 
 namespace hud::utils {
 
@@ -16,5 +18,10 @@ bool intersects(const Point& p, const Rect& rect) {
 
 Point toNormalizedDeviceCoordinates(const Point& p, const Rect& rect) {
   return Point(p.x / rect.width * 2.0 - 1.0, p.y / rect.height * -2.0 + 1.0);
+}
+
+void shutdown() {
+  bgfx::shutdown();
+  glfwTerminate();
 }
 }

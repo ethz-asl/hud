@@ -33,7 +33,8 @@ ImagePane::ImagePane(int id, std::string file_path) : View(id) {
 ImagePane::~ImagePane() {
   bgfx::destroy(vertexBuffer);
   bgfx::destroy(indexBuffer);
-  bgfx::destroy(texture);
+  if (bgfx::isValid(texture))
+    bgfx::destroy(texture);
   bgfx::destroy(textureColor);
   bgfx::destroy(program);
 }
