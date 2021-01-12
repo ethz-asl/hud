@@ -62,11 +62,13 @@ void PointLayer::render() const {
 
   bgfx::allocInstanceDataBuffer(&idb, points.size(), InstanceStride);
   uint8_t* instance_data = idb.data;
+  float ndc_width = point_radius / rect.width;
+  float ndc_height = point_radius / rect.height;
   for (int i=0; i < points.size(); i++) {
     float* vectors = (float*)instance_data;
     const Point& point = points[i];
-    vectors[0] = float(point.x);
-    vectors[1] = float(point.y);
+    vectors[0] = float(point.x + ndc_width);
+    vectors[1] = float(point.y - ndc_height);
     instance_data += InstanceStride;
   }
 

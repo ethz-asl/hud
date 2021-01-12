@@ -1,5 +1,7 @@
 import hud
 import time
+import numpy as np
+from PIL import Image
 
 def main():
     window = hud.AppWindow("Labeler", 1280, 600)
@@ -18,7 +20,19 @@ def main():
 
     left_image.add_click_handler(add_point)
     left_pane = hud.ZStack(add_layer)
-    right_pane = hud.ImagePane("../assets/right.png")
+    right_pane = hud.ImagePane("../assets/right.jpg")
+
+    images = ["../assets/right.jpg", "../assets/left.jpg"]
+
+    def swap_image(event):
+        current_image = images[0]
+        next_image = images[1]
+        images[0] = next_image
+        images[1] = current_image
+        image = np.array(Image.open(next_image))
+        right_pane.set_texture(image)
+
+    right_pane.add_click_handler(swap_image)
 
     def add_views(context):
         context.add(left_pane)

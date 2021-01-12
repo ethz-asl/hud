@@ -15,7 +15,7 @@ protected:
   bgfx::VertexLayout layout;
   bgfx::ProgramHandle program;
   std::array<float, 20> vertices;
-  const float point_radius = 12.0;
+  const float point_radius = 6.0;
 public:
   PointLayer(const std::vector<Point> p);
   ~PointLayer();

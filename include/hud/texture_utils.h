@@ -1,5 +1,8 @@
+#ifndef H_TEXTURE_UTILS
+#define H_TEXTURE_UTILS
 #include <string>
 #include <bgfx/bgfx.h>
+#include <bimg/bimg.h>
 #include <exception>
 
 struct texture_load_exception : public std::exception {
@@ -8,5 +11,8 @@ struct texture_load_exception : public std::exception {
   }
 };
 
+
 bgfx::TextureHandle loadTexture(std::string &);
+bgfx::TextureHandle imageToTexture(bimg::ImageContainer*);
+#endif
 

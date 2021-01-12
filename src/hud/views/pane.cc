@@ -13,7 +13,7 @@ static const uint16_t faces[] = {
   0, 2, 3
 };
 
-ImagePane::ImagePane(std::string file_path) : View() {
+void ImagePane::initRendering() {
   layout
     .begin()
     .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
@@ -24,11 +24,17 @@ ImagePane::ImagePane(std::string file_path) : View() {
   indexBuffer = bgfx::createIndexBuffer(bgfx::makeRef(faces, sizeof(faces)));
 
   textureColor = bgfx::createUniform("textureColor", bgfx::UniformType::Sampler);
-  texture = loadTexture(file_path);
 
   program = shader_utils::loadProgram("vs_pane", "fs_pane");
   bgfx::setViewClear(view_id, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 }
+
+ImagePane::ImagePane(const bgfx::TextureHandle &handle) : View(), texture(handle) {
+  initRendering();
+  image_set = true;
+}
+
+ImagePane::ImagePane(std::string file_path) : ImagePane(loadTexture(file_path)) {}
 
 ImagePane::~ImagePane() {
   bgfx::destroy(vertexBuffer);

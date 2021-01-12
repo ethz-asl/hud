@@ -2,11 +2,13 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/functional.h>
-#include <hud/app_window.h>
-#include <hud/views/hstack.h>
-#include <hud/views/zstack.h>
-#include <hud/views/point_layer.h>
-#include <hud/views/pane.h>
+#include <pybind11/numpy.h>
+#include "hud/app_window.h"
+#include "hud/views/hstack.h"
+#include "hud/views/zstack.h"
+#include "hud/views/point_layer.h"
+#include "hud/views/pane.h"
+#include "hud/bindings/numpy_utils.h"
 
 namespace py = pybind11;
 using namespace hud;
@@ -22,7 +24,6 @@ PYBIND11_MODULE(hud, m) {
     .def_readonly("width", &Rect::width)
     .def_readonly("height", &Rect::height);
 
-
   py::class_<View, std::shared_ptr<View>> view(m, "View");
   view.def("getRect", &View::getRect)
     .def("add_click_handler", &View::addClickHandler);
@@ -31,7 +32,11 @@ PYBIND11_MODULE(hud, m) {
     .def(py::init<double, double>());
 
   py::class_<ImagePane, std::shared_ptr<ImagePane>>(m, "ImagePane", view)
-    .def(py::init<std::string>());
+    .def(py::init<std::string>())
+    .def("set_texture", [](ImagePane& pane, py::array_t<uint8_t> array) {
+      auto texture = hud::numpy_utils::arrayToTexture(array);
+      pane.setTexture(texture);
+    });
 
   py::class_<HStack, std::shared_ptr<HStack>>(m, "HStack", view)
     .def(py::init<std::function<void(LayoutContext*)>>());
