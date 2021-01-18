@@ -10,6 +10,10 @@
 #include <bgfx/bgfx.h>
 
 namespace hud::views {
+
+enum Key {
+};
+
 struct ClickEvent {
   const Point p;
 };
@@ -18,7 +22,7 @@ using ClickHandler = std::function<bool(const ClickEvent&)>;
 
 class View {
 protected:
-  std::vector<ClickHandler> click_handlers;
+  std::list<ClickHandler> click_handlers;
   Rect rect;
   std::list<std::shared_ptr<View>> child_views;
 public:

@@ -13,7 +13,7 @@ static void imageReleaseCb(void* ptr, void *userData) {
   bimg::imageFree(imageContainer);
 }
 
-bgfx::TextureHandle loadTexture(std::string &filePath) {
+bgfx::TextureHandle loadTexture(const std::string &filePath) {
   bx::FileReader reader;
   bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
   bx::Error error;

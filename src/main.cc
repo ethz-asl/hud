@@ -31,7 +31,8 @@ class StereoLabel {
 
   protected:
   void createViews() {
-    left_image_pane = std::make_shared<views::ImagePane>("../assets/left.jpg");
+    left_image_pane = std::make_shared<views::ImagePane>();
+    left_image_pane->setTexture("../assets/left.jpg");
     auto right_image_pane = std::make_shared<views::ImagePane>("../assets/right.jpg");
     std::vector<Point> points = { Point(-0.8, 0.0) };
 
@@ -42,6 +43,7 @@ class StereoLabel {
     });
 
     auto line_layer = std::make_shared<LineLayer>();
+    line_layer->setLine(Point(-1.0, 0.0), Point(1.0, 0.0));
     right_pane = std::make_shared<views::ZStack>([=](views::LayoutContext *layout) {
         layout->add(right_image_pane);
         layout->add(line_layer);

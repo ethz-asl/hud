@@ -46,6 +46,19 @@ AppWindow::AppWindow(std::string title, const int w, const int h) : title(title)
     }
   });
 
+  glfwSetKeyCallback(window, [](GLFWwindow *window, int codepoint, int scancode, int action, int mods) {
+    if (action == GLFW_PRESS) {
+      char character = codepoint;
+      char key = '\0';
+      if (isprint(character)) {
+        key = character;
+      }
+      KeyEvent event{ key, mods };
+      AppWindow* app = (AppWindow*)glfwGetWindowUserPointer(window);
+      app->keydown(event);
+    }
+  });
+
   bgfx::init(init);
 }
 
@@ -64,6 +77,12 @@ void AppWindow::leftClick() {
   glfwGetCursorPos(window, &x, &y);
   const ClickEvent event = { Point(x, y) };
   view->leftClick(event);
+}
+
+void AppWindow::keydown(const KeyEvent& event) {
+  std::for_each(key_handlers.begin(), key_handlers.end(), [&](KeyHandler& handler) {
+      handler(event);
+  });
 }
 
 // Window handlers.

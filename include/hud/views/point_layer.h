@@ -22,6 +22,7 @@ public:
 
   void setPoints(std::vector<Point> newPoints);
   void addPoint(const Point& point);
+  void pop();
 
   void resized(Rect newRect) override;
   void render() const override;

@@ -1,6 +1,15 @@
 #include <hud/shader_utils.h>
 
+#include <iostream>
+#include <filesystem>
+
 namespace shader_utils {
+
+std::string data_dir = "../";
+
+void setDataDirectory(const std::string& dir) {
+  data_dir = dir;
+}
 
 const bgfx::Memory* loadMemory(bx::FileReaderI* _reader, const char* _filePath) {
 	if (bx::open(_reader, _filePath)) {
@@ -17,18 +26,21 @@ const bgfx::Memory* loadMemory(bx::FileReaderI* _reader, const char* _filePath) 
 bgfx::ShaderHandle loadShader(bx::FileReader *reader, const char* _name) {
 	char filePath[512];
 
-	const char* shaderPath = "";
+	std::string shaderPath = "";
 
 	switch (bgfx::getRendererType()) {
 	case bgfx::RendererType::Noop:
-	case bgfx::RendererType::OpenGL:     shaderPath = "../compiled_shaders/glsl/";  break;
-	case bgfx::RendererType::Vulkan:     shaderPath = "../compiled_shaders/spirv/"; break;
+	case bgfx::RendererType::OpenGL:     shaderPath = "compiled_shaders/glsl/";  break;
+	case bgfx::RendererType::Vulkan:     shaderPath = "compiled_shaders/spirv/"; break;
 	case bgfx::RendererType::Count:
 		BX_ASSERT(false, "You should not be here!");
 		break;
 	}
 
-	bx::strCopy(filePath, BX_COUNTOF(filePath), shaderPath);
+	std::filesystem::path combined = std::filesystem::path(data_dir) / shaderPath;
+	shaderPath = combined.string();
+
+	bx::strCopy(filePath, BX_COUNTOF(filePath), shaderPath.c_str());
 	bx::strCat(filePath, BX_COUNTOF(filePath), _name);
 	bx::strCat(filePath, BX_COUNTOF(filePath), ".bin");
 

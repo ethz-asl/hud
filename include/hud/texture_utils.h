@@ -12,7 +12,7 @@ struct texture_load_exception : public std::exception {
 };
 
 
-bgfx::TextureHandle loadTexture(std::string &);
+bgfx::TextureHandle loadTexture(const std::string &);
 bgfx::TextureHandle imageToTexture(bimg::ImageContainer*);
 #endif
 

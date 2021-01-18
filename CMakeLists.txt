@@ -30,3 +30,18 @@ target_link_libraries(hud PRIVATE shared_lib)
 add_shaders(main SHADERS vs_pane.sc fs_pane.sc point_layer/vs_point_layer.sc point_layer/fs_point_layer.sc
     line_layer/vs_line_layer.sc line_layer/fs_line_layer.sc)
 
+# Tests
+
+find_package(GTest REQUIRED)
+enable_testing()
+file(GLOB TEST_FILES test/*.cc)
+add_custom_target(run_tests COMMAND ${CMAKE_CTEST_COMMAND})
+foreach(_test_file ${TEST_FILES})
+    get_filename_component(_test_name ${_test_file} NAME_WE)
+    message("Found test file ${_test_file}")
+    add_executable(${_test_name} ${_test_file})
+    target_link_libraries(${_test_name} ${GTEST_LIBRARIES} shared_lib)
+    add_test(NAME ${_test_name} COMMAND ${_test_name})
+    add_dependencies(run_tests ${_test_name})
+endforeach()
+

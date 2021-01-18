@@ -29,6 +29,10 @@ void ImagePane::initRendering() {
   bgfx::setViewClear(view_id, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 }
 
+ImagePane::ImagePane() : View() {
+  initRendering();
+}
+
 ImagePane::ImagePane(const bgfx::TextureHandle &handle) : View(), texture(handle) {
   initRendering();
   image_set = true;
@@ -45,7 +49,24 @@ ImagePane::~ImagePane() {
   bgfx::destroy(program);
 }
 
+void ImagePane::setTexture(const bgfx::TextureHandle& handle) {
+  if (image_set && bgfx::isValid(texture)) {
+    bgfx::destroy(texture);
+  }
+  texture = handle;
+  image_set = true;
+}
+
+void ImagePane::setTexture(const std::string& path) {
+  if (image_set && bgfx::isValid(texture)) {
+    bgfx::destroy(texture);
+  }
+  texture = loadTexture(path);
+  image_set = true;
+}
+
 void ImagePane::render() const {
+  if (!image_set) return;
   bgfx::setVertexBuffer(0, vertexBuffer);
   bgfx::setIndexBuffer(indexBuffer);
 

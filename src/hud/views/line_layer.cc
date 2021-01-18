@@ -16,16 +16,13 @@ static const uint16_t faces[] = {
 };
 
 LineLayer::LineLayer() : View() {
-  start_point = Point(-1.0, 0.0);
-  end_point = Point(1.0, 0.0);
-
   layout.begin()
     .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
     .end();
 
   vertices = createVertices(start_point, end_point, line_width);
   auto ref = bgfx::makeRef(vertices.data(), sizeof(float) * 8);
-  vertex_buffer = bgfx::createVertexBuffer(ref, layout);
+  vertex_buffer = bgfx::createDynamicVertexBuffer(ref, layout);
   index_buffer = bgfx::createIndexBuffer(bgfx::makeRef(faces, sizeof(faces)));
   program = shader_utils::loadProgram("vs_line_layer", "fs_line_layer");
 }
@@ -36,7 +33,21 @@ LineLayer::~LineLayer() {
   bgfx::destroy(program);
 }
 
+void LineLayer::setLine(const Point& start, const Point& end) {
+  start_point = start;
+  end_point = end;
+  updateVertices();
+  line_set = true;
+}
+
+void LineLayer::updateVertices() {
+  vertices = createVertices(start_point, end_point, line_width);
+  auto ref = bgfx::makeRef(vertices.data(), sizeof(float) * 8);
+  bgfx::update(vertex_buffer, 0, ref);
+}
+
 void LineLayer::render() const {
+  if (!line_set) return;
   bgfx::setVertexBuffer(0, vertex_buffer);
   bgfx::setIndexBuffer(index_buffer);
   bgfx::setState(BGFX_STATE_DEFAULT);

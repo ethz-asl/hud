@@ -3,7 +3,9 @@
 
 namespace hud::views {
 
-ZStack::ZStack(const std::function<void(LayoutContext*)> &fn) : View() {
+ZStack::ZStack() : StackView() {}
+
+ZStack::ZStack(const std::function<void(LayoutContext*)> &fn) : StackView() {
   LayoutContext layout;
   fn(&layout);
   child_views = layout.views;

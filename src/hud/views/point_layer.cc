@@ -52,12 +52,19 @@ void PointLayer::addPoint(const Point& point) {
   points.push_back(point);
 }
 
+void PointLayer::pop() {
+  if (!points.empty()) {
+    points.pop_back();
+  }
+}
+
 void PointLayer::resized(Rect newRect) {
   views::View::resized(newRect);
   updateVertexBuffer();
 }
 
 void PointLayer::render() const {
+  if (points.empty()) return;
   bgfx::InstanceDataBuffer idb;
 
   bgfx::allocInstanceDataBuffer(&idb, points.size(), InstanceStride);

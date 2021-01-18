@@ -21,16 +21,16 @@ private:
   void initRendering();
 
 public:
+  ImagePane();
   ImagePane(const bgfx::TextureHandle& handle);
   ImagePane(std::string file_path);
   ImagePane(const ImagePane&) = delete;
   ImagePane& operator=(const ImagePane&) = delete;
   ~ImagePane();
 
-  void setTexture(const bgfx::TextureHandle& handle) {
-    bgfx::destroy(texture);
-    texture = handle;
-  }
+  void setTexture(const bgfx::TextureHandle& handle);
+
+  void setTexture(const std::string& path);
 
   // Rendering.
   void render() const override;

@@ -8,6 +8,8 @@ struct Rect {
   double y;
   double width;
   double height;
+  Rect(double x, double y, double w, double h) : x(x), y(y), width(w), height(h) {}
+  Rect() : x(0.0), y(0.0), width(0.0), height(0.0) {}
 };
 
 struct Point {
