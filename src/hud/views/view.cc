@@ -48,14 +48,14 @@ bool View::leftClick(const ClickEvent& event) {
   for (auto child_view : childViews()) {
     const Rect& view_rect = child_view->getRect();
     if (hud::utils::intersects(event.p, view_rect)) {
-      const ClickEvent local_event = { Point(event.p.x - view_rect.x, event.p.y - view_rect.y) };
-      click_handled = click_handled || child_view->leftClick(local_event);
+      click_handled = click_handled || child_view->leftClick(event);
     }
   }
 
   if (!click_handled) {
     for (auto handler : click_handlers) {
-      handler(event);
+      const ClickEvent local_event = { Point(event.p.x - rect.x, event.p.y - rect.y) };
+      handler(local_event);
     }
   }
   return true;

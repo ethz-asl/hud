@@ -3,6 +3,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/functional.h>
 #include <pybind11/numpy.h>
+#include <pybind11/eigen.h>
 #include "hud/app_window.h"
 #include "hud/views/stack_view.h"
 #include "hud/views/hstack.h"
@@ -64,6 +65,7 @@ PYBIND11_MODULE(hud, m) {
     .def(py::init<const std::vector<Point>>())
     .def("set_points", &PointLayer::setPoints)
     .def("add_point", &PointLayer::addPoint)
+    .def("set_colors", &PointLayer::setColors)
     .def("pop", &PointLayer::pop);
 
   py::class_<LineLayer, std::shared_ptr<LineLayer>>(m, "LineLayer", view)

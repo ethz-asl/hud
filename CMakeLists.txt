@@ -8,6 +8,8 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include(cmake/shaders.cmake)
 
+find_package(Eigen3 REQUIRED)
+
 set(BGFX_BUILD_TOOLS ON)
 set(BGFX_BUILD_EXAMPLES OFF)
 
@@ -24,11 +26,12 @@ target_link_libraries(shared_lib bgfx bx bimg glfw)
 add_executable(main src/main.cc)
 target_link_libraries(main shared_lib)
 
+add_shaders(shared_lib SHADERS vs_pane.sc fs_pane.sc point_layer/vs_point_layer.sc point_layer/fs_point_layer.sc
+    line_layer/vs_line_layer.sc line_layer/fs_line_layer.sc)
+
 pybind11_add_module(hud bindings/main.cc)
 target_link_libraries(hud PRIVATE shared_lib)
-
-add_shaders(main SHADERS vs_pane.sc fs_pane.sc point_layer/vs_point_layer.sc point_layer/fs_point_layer.sc
-    line_layer/vs_line_layer.sc line_layer/fs_line_layer.sc)
+add_dependencies(hud shared_lib)
 
 # Tests
 

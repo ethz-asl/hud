@@ -1,10 +1,11 @@
 #include "bgfx/bgfx.h"
 #include <hud/views/point_layer.h>
 #include <hud/shader_utils.h>
+#include <stdexcept>
 
 namespace hud::views {
 
-const uint16_t InstanceStride = 2 * sizeof(float) * 8; // One 2d vector per point instance.
+const uint16_t InstanceStride = 32;  // One 2d vector per point instance.
 
 static const uint16_t faces[] = {
   0, 1, 2, 0, 2, 3
@@ -24,6 +25,10 @@ std::array<float, 20> createVertices(float width, float height) {
 }
 
 PointLayer::PointLayer(const std::vector<Point> p) : hud::views::View(), points(p) {
+  colors.resize(points.size(), 4);
+  for (int i=0; i < points.size(); i++) {
+    colors.row(i) = DefaultColor;
+  }
   layout
     .begin()
     .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
@@ -44,12 +49,31 @@ PointLayer::~PointLayer() {
   bgfx::destroy(program);
 }
 
-void PointLayer::setPoints(std::vector<Point> newPoints) {
+void PointLayer::setPoints(std::vector<Point> newPoints, const Matrix<double, Dynamic, 4>& c) {
   points = newPoints;
+  setColors(c);
 }
 
-void PointLayer::addPoint(const Point& point) {
+void PointLayer::addPoint(const Point& point, const RowVector4d& color) {
+  int old_count = colors.rows();
   points.push_back(point);
+  const auto old_colors = colors;
+  colors.resize(old_count + 1, 4);
+  colors.block(0, 0, old_count, 4) = old_colors.block(0, 0, old_count, 4);
+  colors.row(old_count) = color;
+}
+
+void PointLayer::setColors(const Matrix<double, Dynamic, 4, RowMajor>& newColors) {
+  if (newColors.rows() == points.size()) {
+    colors = newColors;
+  } else if (newColors.rows() == 1) {
+    colors.resize(points.size(), 4);
+    for (int i=0; i < points.size(); i++) {
+      colors.row(i) = newColors;
+    }
+  } else {
+    throw std::invalid_argument("Colors has to have 1 or the same amount of rows as points.");
+  }
 }
 
 void PointLayer::pop() {
@@ -67,15 +91,27 @@ void PointLayer::render() const {
   if (points.empty()) return;
   bgfx::InstanceDataBuffer idb;
 
-  bgfx::allocInstanceDataBuffer(&idb, points.size(), InstanceStride);
-  uint8_t* instance_data = idb.data;
-  float ndc_width = point_radius / rect.width;
-  float ndc_height = point_radius / rect.height;
-  for (int i=0; i < points.size(); i++) {
+  float ndc_width = point_radius / rect.width * 0.5;
+  float ndc_height = point_radius / rect.height * 0.5;
+
+  int instance_spots = bgfx::getAvailInstanceDataBuffer(points.size(), InstanceStride);
+  int num_instances = std::min(int(points.size()), instance_spots);
+
+  bgfx::allocInstanceDataBuffer(&idb, num_instances, InstanceStride);
+  uint8_t* instance_data = (uint8_t*)idb.data;
+
+  assert(points.size() == colors.rows());
+  for (int i=0; i < num_instances; i++) {
     float* vectors = (float*)instance_data;
     const Point& point = points[i];
-    vectors[0] = float(point.x + ndc_width);
-    vectors[1] = float(point.y - ndc_height);
+    vectors[0] = float(point.x - ndc_width);
+    vectors[1] = float(point.y + ndc_height);
+
+    const RowVector4d& color = colors.row(i);
+    vectors[2] = float(color[0]);
+    vectors[3] = float(color[1]);
+    vectors[4] = float(color[2]);
+    vectors[5] = float(color[3]);
     instance_data += InstanceStride;
   }
 

@@ -1,5 +1,4 @@
-$input v_texcoord0
-$output a_color0
+$input v_texcoord0, v_color0
 
 #include "./bgfx_shader.sh"
 
@@ -9,5 +8,5 @@ void main() {
 	if (distance > radius) {
 		discard;
 	}
-	gl_FragColor = vec4(1.0, 0.5, 0.5, 1.0);
+	gl_FragColor = v_color0;
 }
