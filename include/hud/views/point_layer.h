@@ -29,6 +29,7 @@ public:
   void addPoint(const Point& point, const RowVector4d& color = DefaultColor);
   void setColors(const Matrix<double, Dynamic, 4, RowMajor>& colors);
   void pop();
+  void clearPoints();
 
   void resized(Rect newRect) override;
   void render() const override;

@@ -9,3 +9,4 @@ Point scaleToView(const Point& p, const Rect& source, const Rect& target);
 void shutdown();
 }
 #endif
+

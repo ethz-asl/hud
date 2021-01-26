@@ -3,6 +3,8 @@
 #include <hud/shader_utils.h>
 #include <stdexcept>
 
+using namespace Eigen;
+
 namespace hud::views {
 
 const uint16_t InstanceStride = 32;  // One 2d vector per point instance.
@@ -57,10 +59,15 @@ void PointLayer::setPoints(std::vector<Point> newPoints, const Matrix<double, Dy
 void PointLayer::addPoint(const Point& point, const RowVector4d& color) {
   int old_count = colors.rows();
   points.push_back(point);
-  const auto old_colors = colors;
-  colors.resize(old_count + 1, 4);
-  colors.block(0, 0, old_count, 4) = old_colors.block(0, 0, old_count, 4);
-  colors.row(old_count) = color;
+  Eigen::Matrix<double, Dynamic, 4> newColors(old_count + 1, 4);
+  newColors.block(0, 0, old_count, 4) = colors.block(0, 0, old_count, 4);
+  newColors.row(old_count) = color;
+  colors = newColors;
+}
+
+void PointLayer::clearPoints() {
+  points.clear();
+  colors.resize(0, 4);
 }
 
 void PointLayer::setColors(const Matrix<double, Dynamic, 4, RowMajor>& newColors) {

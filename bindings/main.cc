@@ -66,7 +66,8 @@ PYBIND11_MODULE(hud, m) {
     .def("set_points", &PointLayer::setPoints)
     .def("add_point", &PointLayer::addPoint)
     .def("set_colors", &PointLayer::setColors)
-    .def("pop", &PointLayer::pop);
+    .def("pop", &PointLayer::pop)
+    .def("clear_points", &PointLayer::clearPoints);
 
   py::class_<LineLayer, std::shared_ptr<LineLayer>>(m, "LineLayer", view)
     .def(py::init<>())
