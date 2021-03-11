@@ -30,6 +30,7 @@ public:
   void setColors(const Matrix<double, Dynamic, 4, RowMajor>& colors);
   void pop();
   void clearPoints();
+  int pointCount() const { return points.size(); };
 
   void resized(Rect newRect) override;
   void render() const override;

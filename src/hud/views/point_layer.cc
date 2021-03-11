@@ -6,8 +6,9 @@
 using namespace Eigen;
 
 namespace hud::views {
-
-const uint16_t InstanceStride = 32;  // One 2d vector per point instance.
+// One 2d vector + 4 color values per point instance, i.e. 6 values.
+// Has to be a multiple of 16, therefore we pad with 2 values.
+const uint16_t InstanceStride = sizeof(float) * 8;
 
 static const uint16_t faces[] = {
   0, 1, 2, 0, 2, 3
@@ -34,7 +35,7 @@ PointLayer::PointLayer(const std::vector<Point> p) : hud::views::View(), points(
   layout
     .begin()
     .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-    .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float, true, true)
+    .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
     .end();
 
   vertices = createVertices(point_radius, 0.01);
@@ -115,17 +116,17 @@ void PointLayer::render() const {
     vectors[1] = float(point.y + ndc_height);
 
     const RowVector4d& color = colors.row(i);
-    vectors[2] = float(color[0]);
-    vectors[3] = float(color[1]);
-    vectors[4] = float(color[2]);
-    vectors[5] = float(color[3]);
+    vectors[4] = float(color[0]);
+    vectors[5] = float(color[1]);
+    vectors[6] = float(color[2]);
+    vectors[7] = float(1.0);
     instance_data += InstanceStride;
   }
 
   bgfx::setVertexBuffer(0, vertex_buffer);
   bgfx::setIndexBuffer(index_buffer);
   bgfx::setInstanceDataBuffer(&idb);
-  bgfx::setState(BGFX_STATE_DEFAULT);
+  bgfx::setState(BGFX_STATE_DEFAULT | BGFX_STATE_BLEND_ALPHA);
   bgfx::submit(view_id, program);
 }
 

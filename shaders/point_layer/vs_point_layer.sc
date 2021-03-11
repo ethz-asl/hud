@@ -8,3 +8,4 @@ void main() {
 	v_texcoord0 = a_texcoord0;
   v_color0 = i_data1;
 }
+

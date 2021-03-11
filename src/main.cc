@@ -9,6 +9,7 @@
 #include <hud/views/view.h>
 #include <hud/views/point_layer.h>
 #include <hud/views/line_layer.h>
+#include <Eigen/Core>
 
 using namespace hud;
 
@@ -17,8 +18,13 @@ class StereoLabel {
   AppWindow app;
   std::shared_ptr<views::View> left_pane, right_pane;
   std::shared_ptr<views::ImagePane> left_image_pane;
+
+  Eigen::Matrix<double, Eigen::Dynamic, 4, RowMajor> colors;
   public:
-  StereoLabel() : app("StereoLabel", 1280, 600) {
+  StereoLabel() : app("StereoLabel", 1280, 600), colors(3, 4) {
+    colors << 1.0, 0.0, 0.0, 1.0,
+              0.0, 1.0, 0.0, 1.0,
+              0.0, 0.0, 1.0, 1.0;
     createViews();
   }
 
@@ -60,7 +66,8 @@ class StereoLabel {
         auto rect = left_image_pane->getRect();
         auto point = hud::utils::toNormalizedDeviceCoordinates(click.p, left_image_pane->getRect());
         std::cout << "left pane clicked! " << point << std::endl;
-        left_point_layer->addPoint(point);
+        RowVector4d color = colors.row(left_point_layer->pointCount() % 3);
+        left_point_layer->addPoint(point, color);
         return true;
     });
     right_pane->addClickHandler([&](const views::ClickEvent &click) {
