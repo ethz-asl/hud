@@ -80,6 +80,7 @@ PYBIND11_MODULE(hud, m) {
   py::class_<AppWindow>(m, "AppWindow")
     .def(py::init<std::string, int, int>())
     .def("wait_events", &AppWindow::waitEvents)
+    .def("poll_events", &AppWindow::pollEvents)
     .def("add_key_handler", &AppWindow::addKeyHandler)
     .def("set_view", &AppWindow::setView)
     .def("update", &AppWindow::update);

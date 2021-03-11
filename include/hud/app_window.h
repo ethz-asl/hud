@@ -36,6 +36,10 @@ public:
     glfwWaitEvents();
   }
 
+  void pollEvents() const {
+    glfwPollEvents();
+  }
+
   // Window handlers.
   void resized(int, int);
 
