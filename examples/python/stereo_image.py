@@ -4,8 +4,6 @@ import time
 import numpy as np
 from PIL import Image
 
-hud.set_data_directory(os.path.dirname(hud.__file__))
-
 POINT_COLOR = np.array([1.0, 0.6, 0.5, 1.0])
 
 def main():

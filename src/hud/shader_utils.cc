@@ -1,15 +1,10 @@
 #include <hud/shader_utils.h>
 
 #include <iostream>
-#include <filesystem>
+#include <boost/filesystem.hpp>
+#include <boost/dll.hpp>
 
 namespace shader_utils {
-
-std::string data_dir = "../";
-
-void setDataDirectory(const std::string& dir) {
-  data_dir = dir;
-}
 
 const bgfx::Memory* loadMemory(bx::FileReaderI* _reader, const char* _filePath) {
 	if (bx::open(_reader, _filePath)) {
@@ -37,7 +32,18 @@ bgfx::ShaderHandle loadShader(bx::FileReader *reader, const char* _name) {
 		break;
 	}
 
-	std::filesystem::path combined = std::filesystem::path(data_dir) / shaderPath;
+	// program location is the path to the Python executable.
+	// Assume that the shaders are in the Python env under the share/hud folder.
+	boost::filesystem::path program_location = boost::dll::program_location();
+	boost::filesystem::path data_dir;
+	if (program_location.string().find("python") != std::string::npos) {
+	  data_dir = program_location.parent_path().parent_path() / "share" / "hud";
+	} else {
+	  // Assume that we are running the binary from the build folder. Compiled shaders are at
+	  // ../compiled_shaders.
+	  data_dir = program_location.parent_path().parent_path();
+	}
+	boost::filesystem::path combined = data_dir / shaderPath;
 	shaderPath = combined.string();
 
 	bx::strCopy(filePath, BX_COUNTOF(filePath), shaderPath.c_str());
