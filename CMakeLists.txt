@@ -17,7 +17,9 @@ set(BGFX_BUILD_EXAMPLES OFF)
 add_subdirectory(submodules/bgfx)
 add_subdirectory(submodules/pybind11)
 
-include_directories(include ${Boost_INCLUDE_DIR})
+include_directories(include)
+include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories(${Boost_INCLUDE_DIR})
 include_directories(submodules/pybind11/include)
 
 file(GLOB SOURCE_FILES src/hud/**/*.cc src/hud/*.cc)
