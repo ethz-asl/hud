@@ -38,6 +38,11 @@ bgfx::ShaderHandle loadShader(bx::FileReader *reader, const char* _name) {
 	boost::filesystem::path data_dir;
 	if (program_location.string().find("python") != std::string::npos) {
 	  data_dir = program_location.parent_path().parent_path() / "share" / "hud";
+	  if (!boost::filesystem::exists(data_dir)) {
+	    // If the folder doesn't exist, it likely is using the system Python and the library is installed in the home directory.
+
+	    data_dir = boost::filesystem::path(getenv("HOME")) / ".local" / "share" / "hud";
+	  }
 	} else {
 	  // Assume that we are running the binary from the build folder. Compiled shaders are at
 	  // ../compiled_shaders.
