@@ -104,7 +104,7 @@ setup(
     version='0.1',
     ext_modules=[CMakeExtension('hud')],
     data_files=[
-        ('compiled_shaders/glsl', list_shaders('compiled_shaders/glsl'))
+        ('share/hud/compiled_shaders/glsl', list_shaders('compiled_shaders/glsl'))
     ],
     cmdclass={
         'build_ext': CMakeBuild,

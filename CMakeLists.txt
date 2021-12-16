@@ -9,6 +9,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 include(cmake/shaders.cmake)
 
 find_package(Eigen3 REQUIRED)
+find_package(Boost 1.61 REQUIRED COMPONENTS system filesystem)
 
 set(BGFX_BUILD_TOOLS ON)
 set(BGFX_BUILD_EXAMPLES OFF)
@@ -16,13 +17,14 @@ set(BGFX_BUILD_EXAMPLES OFF)
 add_subdirectory(submodules/bgfx)
 add_subdirectory(submodules/pybind11)
 
-include_directories(${EIGEN3_INCLUDE_DIR})
 include_directories(include)
+include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories(${Boost_INCLUDE_DIR})
 include_directories(submodules/pybind11/include)
 
 file(GLOB SOURCE_FILES src/hud/**/*.cc src/hud/*.cc)
 add_library(shared_lib ${SOURCE_FILES})
-target_link_libraries(shared_lib bgfx bx bimg glfw)
+target_link_libraries(shared_lib bgfx bx bimg glfw Boost::system Boost::filesystem)
 
 add_executable(main src/main.cc)
 target_link_libraries(main shared_lib)

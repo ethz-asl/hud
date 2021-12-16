@@ -16,7 +16,7 @@ Click handlers can be attached to views to do something when the user clicks the
 
 ## Installing python bindings
 
-`sudo apt-get install libglfw3-dev libeigen3-dev ninja-build`
+`sudo apt-get install libglfw3-dev libeigen3-dev libboost-dev ninja-build`
 
 ```
 git submodule update --init --recursive

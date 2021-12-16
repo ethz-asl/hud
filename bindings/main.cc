@@ -92,8 +92,6 @@ PYBIND11_MODULE(hud, m) {
   modifiers.attr("CTRL")  = modifiers::Ctrl;
   modifiers.attr("ALT")   = modifiers::Alt;
 
-  m.def("set_data_directory", &shader_utils::setDataDirectory);
-
   auto utils = m.def_submodule("utils");
   utils.def("to_normalized_device_coordinates", &utils::toNormalizedDeviceCoordinates)
     .def("scale_to_view", &utils::scaleToView);
